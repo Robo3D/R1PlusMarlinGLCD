@@ -462,8 +462,8 @@ const bool Z_MAX_ENDSTOP_INVERTING = false; // set to true to invert the logic o
 #define DEFAULT_ZJERK                 0.4     // (mm/sec)
 #define DEFAULT_EJERK                 5.0    // (mm/sec)
 
-#define DEFAULT_ENCODER_STEPS_PER_MENU_ITEM 4
-#define DEFAULT_ENCODER_PULSES_PER_STEP 1
+#define DEFAULT_ENCODER_STEPS_PER_MENU_ITEM 2
+#define DEFAULT_ENCODER_PULSES_PER_STEP 2
 
 
 //===========================================================================
@@ -504,8 +504,8 @@ const bool Z_MAX_ENDSTOP_INVERTING = false; // set to true to invert the logic o
 //#define DOGLCD  // Support for SPI LCD 128x64 (Controller ST7565R graphic Display Family)
 //#define SDSUPPORT // Enable SD Card Support in Hardware Console
 #define SDSLOW // Use slower SD transfer mode (not normally needed - uncomment if you're getting volume init error)
-#define ENCODER_PULSES_PER_STEP 1 // Increase if you have a high resolution encoder
-#define ENCODER_STEPS_PER_MENU_ITEM 4 // Set according to ENCODER_PULSES_PER_STEP or your liking
+//#define ENCODER_PULSES_PER_STEP 1 // Increase if you have a high resolution encoder
+//#define ENCODER_STEPS_PER_MENU_ITEM 5 // Set according to ENCODER_PULSES_PER_STEP or your liking
 //#define ULTIMAKERCONTROLLER //as available from the Ultimaker online store.
 //#define ULTIPANEL  //the UltiPanel as on Thingiverse
 //#define LCD_FEEDBACK_FREQUENCY_HZ 1000	// this is the tone frequency the buzzer plays when on UI feedback. ie Screen Click
@@ -638,7 +638,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = false; // set to true to invert the logic o
 
 
 #ifdef ULTIPANEL
-  #define NEWPANEL  //enable this if you have a click-encoder panel
+//  #define NEWPANEL  //enable this if you have a click-encoder panel
   #define SDSUPPORT
   #define ULTRA_LCD
   #ifdef DOGLCD // Change number of lines to match the DOG graphic display
