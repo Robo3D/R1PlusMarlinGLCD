@@ -40,11 +40,11 @@
 	#ifdef CUSTOM_MENDEL_NAME
 		#define MACHINE_NAME CUSTOM_MENDEL_NAME
 	#else
-		#define MACHINE_NAME "R1 Plus"
+		#define MACHINE_NAME "R1 Plus GLCD"
 	#endif
 
 // Default firmware set to Mendel
-	#define FIRMWARE_URL "https://github.com/ErikZalm/Marlin/"
+	#define FIRMWARE_URL "https://github.com/Robo3D/R1PlusMarlinGLCD"
 #endif
 
 
@@ -72,9 +72,9 @@
         #define MSG_AXIS "Axis"
         #define MSG_WIZARD "Wizard"
 		#define MSG_EXIT "Exit"
-		#define MSG_BED_LEVEL "Bed Level"
+		#define MSG_BED_LEVEL " Hotend"
 		#define MSG_CLEAN_NOZZLE "Cleaning"
-		#define MSG_CHANGE_FILAMENT "NewFilament"
+		#define MSG_CHANGE_FILAMENT " Filament"
 		#define MSG_HEAT "Preheat"
 		//#define MSG_COOL "Cooldown"
 		#define MSG_HOME "HomeAll"
@@ -89,35 +89,32 @@
         #define MSG_DIAL_SENSITIVITY_2 "sensitivity between"
         #define MSG_DIAL_SENSITIVITY_3 "high or low."
 
-		#define MSG_WIZARD1_1 "Bed Level Wizard 1/6"
-		#define MSG_WIZARD1_2 "Ensure the print"
-		#define MSG_WIZARD1_3 "surface is clipped"
-		#define MSG_WIZARD1_4 "on and the nozzle"
-		#define MSG_WIZARD1_5 "is free of debris"
-		#define MSG_WIZARD1_6 "before continuing."
+		#define MSG_WIZARD1_1 "Nozzle Wizard 1/3"
+		#define MSG_WIZARD1_2 "If your nozzle is"
+		#define MSG_WIZARD1_3 "cooled down, you can"
+		#define MSG_WIZARD1_4 "change it now."
+    #define MSG_WIZARD1_5 "Heat nozzle in next"
+    #define MSG_WIZARD1_6 "screen if needed."
 
-		#define MSG_WIZARD2_1 "Bed Level Wizard 2/6"
-		#define MSG_WIZARD2_2 "Please Wait..."
-		#define MSG_WIZARD2_3 "Heating..."
+    #define MSG_WIZARD2_1 "Nozzle Wizard 2/3"
+    #define MSG_WIZARD2_2 "Please Wait..."
+    #define MSG_WIZARD2_3 "Heating..."
 
+		#define MSG_WIZARD3_1 "Nozzle Wizard 3/3"
+		#define MSG_WIZARD3_2 "Now that the nozzle"
+		#define MSG_WIZARD3_3 "is hot, go ahead and"
+		#define MSG_WIZARD3_4 "clean it as needed."
 
-		#define MSG_WIZARD3_1 "Bed Level Wizard 3/6"
-		#define MSG_WIZARD3_2 "Turn the thumb screw"
-		#define MSG_WIZARD3_3 "below the nozzle"
-		#define MSG_WIZARD3_4 "until there is a"
-		#define MSG_WIZARD3_5 "hairline gap between"
-		#define MSG_WIZARD3_6 "the nozzle and bed."
+		//#define MSG_WIZARD4_1 "Bed Level Wizard 4/6"
 
-		#define MSG_WIZARD4_1 "Bed Level Wizard 4/6"
+		//#define MSG_WIZARD5_1 "Bed Level Wizard 5/6"
 
-		#define MSG_WIZARD5_1 "Bed Level Wizard 5/6"
-
-		#define MSG_WIZARD6_1 "Bed Level Wizard 6/6"
-		#define MSG_WIZARD6_2 "Your bed should now"
-		#define MSG_WIZARD6_3 "be leveled! Press"
-		#define MSG_WIZARD6_4 "restart if you"
-		#define MSG_WIZARD6_5 "would like to"
-		#define MSG_WIZARD6_6 "try again."
+	//	#define MSG_WIZARD6_1 "Bed Level Wizard 6/6"
+	//	#define MSG_WIZARD6_2 "Your bed should now"
+	//	#define MSG_WIZARD6_3 "be leveled! Press"
+	//	#define MSG_WIZARD6_4 "restart if you"
+	//	#define MSG_WIZARD6_5 "would like to"
+	//	#define MSG_WIZARD6_6 "try again."
 
 		#define MSG_CLEAN_WIZARD1_1 "Change Filament 1/4"
 		#define MSG_CLEAN_WIZARD1_2 "Use this wizard to"

@@ -1,5 +1,7 @@
 #include <U8glib.h>
 
+#include <U8glib.h>
+
 /* -*- c++ -*- */
 
 /*

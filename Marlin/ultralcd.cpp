@@ -60,9 +60,9 @@ static void lcd_dial_sensitivity_menu();
 static void lcd_bed1_menu();
 static void lcd_bed2_menu();
 static void lcd_bed3_menu();
-static void lcd_bed4_menu();
-static void lcd_bed5_menu();
-static void lcd_bed6_menu();
+//static void lcd_bed4_menu();
+//static void lcd_bed5_menu();
+//static void lcd_bed6_menu();
 
 static void lcd_clean1_menu();
 static void lcd_clean2_menu();
@@ -286,11 +286,11 @@ static void lcd_bed3_screen()
     if (lcdDrawUpdate)
     {
         lcd_implementation_bed_wizard_screen3();
-        lcd_status_update_delay = 10;   /* redraw the main screen every second. This is easier then trying keep track of all things that change on the screen */
+        lcd_status_update_delay = 10;   // redraw the main screen every second. This is easier then trying keep track of all things that change on the screen
     }
 
 }
-static void lcd_bed4_screen()
+/*static void lcd_bed4_screen()
 {
     if (lcd_status_update_delay)
         lcd_status_update_delay--;
@@ -299,7 +299,7 @@ static void lcd_bed4_screen()
     if (lcdDrawUpdate)
     {
         lcd_implementation_bed_wizard_screen4();
-        lcd_status_update_delay = 10;   /* redraw the main screen every second. This is easier then trying keep track of all things that change on the screen */
+        lcd_status_update_delay = 10;   // redraw the main screen every second. This is easier then trying keep track of all things that change on the screen
     }
 
 }
@@ -312,10 +312,11 @@ static void lcd_bed5_screen()
     if (lcdDrawUpdate)
     {
         lcd_implementation_bed_wizard_screen5();
-        lcd_status_update_delay = 10;   /* redraw the main screen every second. This is easier then trying keep track of all things that change on the screen */
+        lcd_status_update_delay = 10;   //redraw the main screen every second. This is easier then trying keep track of all things that change on the screen
     }
 
-}
+}*/
+/*
 static void lcd_bed6_screen()
 {
     if (lcd_status_update_delay)
@@ -325,10 +326,11 @@ static void lcd_bed6_screen()
     if (lcdDrawUpdate)
     {
         lcd_implementation_bed_wizard_screen6();
-        lcd_status_update_delay = 10;   /* redraw the main screen every second. This is easier then trying keep track of all things that change on the screen */
+        lcd_status_update_delay = 10;   // redraw the main screen every second. This is easier then trying keep track of all things that change on the screen
     }
 
 }
+*/
 static void lcd_clean1_screen()
 {
     if (lcd_status_update_delay)
@@ -533,7 +535,7 @@ static void lcd_status_screen()
     }
 
 #ifdef ULTIPANEL_FEEDMULTIPLY
-    // Dead zone at 100% feedrate 
+    // Dead zone at 100% feedrate
     if ((feedmultiply < 100 && (feedmultiply + int(encoderPosition)) > 100) ||
             (feedmultiply > 100 && (feedmultiply + int(encoderPosition)) < 100))
     {
@@ -584,8 +586,8 @@ static void lcd_sdcard_pause()
 {
 	//encoderPosition = 0;
     card.sdprinting = false;
-	//enquecommand_P(PSTR("G1 X10 Y10"));
-	//enquecommand_P(PSTR("M84"));
+	enquecommand_P(PSTR("G1 X-30 Y20 Z40"));
+	enquecommand_P(PSTR("M84"));
 
 
 }
@@ -594,25 +596,25 @@ static void lcd_sdcard_change_filament()
 	encoderPosition = 0;
     card.pauseSDPrint();
     enquecommand_P(PSTR("G91"));
-    enquecommand_P(PSTR("G1 X-220 Y-200 E-50 Z40 F2000"));
+    enquecommand_P(PSTR("G1 X120 Y0 E-50 Z40 F2000"));
 	enquecommand_P(PSTR("M84"));
     is_filament_changing = true;
 }
 
 static void lcd_sdcard_resume()
-{   
+{
     enquecommand_P(PSTR("G28 X Y"));
-    
+
     if (is_filament_changing) {
         float epos = current_position[E_AXIS];
-        
+
         float correct_epos = epos+47.0; //we set this to be 3mm less than the above so that it extrudes a bit extra once the print resumes.
 
         char *blah = {ftostr31(correct_epos)};
         char *blah2 = "G92 E";
-        
+
         char result[16];
-        
+
         strcpy(result, blah2);
         strcat(result, blah);
 
@@ -620,9 +622,9 @@ static void lcd_sdcard_resume()
         enquecommand_P(PSTR("G1 Z-40 F1500")); //this has to match the amount the bed dropped when it paused.
         is_filament_changing = false;
     }
-	
+
     enquecommand_P(PSTR("G90"));
-    
+
     card.startFileprint();
     lcd_return_to_status();
 }
@@ -651,7 +653,7 @@ static void lcd_main_menu()
 	} else {
 		lcd_main_screen();
 	}
-    
+
 // ORIGINAL START MENU //
 /*MENU_ITEM(back, MSG_WATCH, lcd_status_screen);
     if (movesplanned() || IS_SD_PRINTING)
@@ -993,9 +995,9 @@ void bed_level_1()
   //enquecommand_P(PSTR("M104 S215"));
   enquecommand_P(PSTR("G90"));
   enquecommand_P(PSTR("G28"));
-
-  enquecommand_P(PSTR("G1 Z10 F1500"));
-  enquecommand_P(PSTR("M104 S100"));
+  enquecommand_P(PSTR("G1 X120 Y0 F4000"));
+  enquecommand_P(PSTR("G1 Z60 F1500"));
+  //enquecommand_P(PSTR("M104 S140"));
 
   currentMenu = lcd_bed1_menu;
   encoderPosition = 0;
@@ -1003,7 +1005,7 @@ void bed_level_1()
   enquecommand_P(PSTR("G1 Y10"));
   disable_e0();
   enquecommand_P(PSTR("G1 X20"));
-  
+
   enquecommand_P(PSTR("G1 Y20"));
   enquecommand_P(PSTR("M104 S215"));
   enquecommand_P(PSTR("G1 Z20"));
@@ -1013,8 +1015,8 @@ void bed_level_1()
 void bed_level_2()
 {
   //enquecommand_P(PSTR("M104 S215"));
-  enquecommand_P(PSTR("M104 S100"));
-  //enquecommand_P(PSTR("G1 X103 F4000"));
+  enquecommand_P(PSTR("M104 S180"));
+  //enquecommand_P(PSTR("G1 X120 Y0 F4000"));
   //enquecommand_P(PSTR("G1 Z0 F1500"));
   currentMenu = lcd_bed2_menu;
 
@@ -1022,18 +1024,17 @@ void bed_level_2()
 void bed_level_3()
 {
   //enquecommand_P(PSTR("M104 S215"));
-  enquecommand_P(PSTR("G1 X105 F4000"));
-  enquecommand_P(PSTR("G1 Z0 F1500"));
+  //enquecommand_P(PSTR("M104 S180"));
   currentMenu = lcd_bed3_menu;
 
 }
 
-void bed_level_4()
+/*void bed_level_4()
 {
   //enquecommand_P(PSTR("M104 S215"));
-  enquecommand_P(PSTR("G1 Z10 F1500"));
-  enquecommand_P(PSTR("G1 X215 Y160 F4000"));
-  enquecommand_P(PSTR("G1 Z0 F1500"));
+  //enquecommand_P(PSTR("G1 Z10 F1500"));
+  //enquecommand_P(PSTR("G1 X215 Y160 F4000"));
+  //enquecommand_P(PSTR("G1 Z0 F1500"));
 
   currentMenu = lcd_bed4_menu;
 }
@@ -1046,7 +1047,8 @@ void bed_level_5()
   enquecommand_P(PSTR("G1 Z0 F1500"));
   currentMenu = lcd_bed5_menu;
 }
-
+*/
+/*
 void bed_level_6()
 {
   //enquecommand_P(PSTR("M104 S215"));
@@ -1055,8 +1057,8 @@ void bed_level_6()
   enquecommand_P(PSTR("G1 Z0 F1500"));
   currentMenu = lcd_bed6_menu;
 }
-
-void bed_level_7()
+*/
+/*void bed_level_7()
 {
   //enquecommand_P(PSTR("M104 S215"));
   enquecommand_P(PSTR("G1 Z10 F1500"));
@@ -1064,7 +1066,7 @@ void bed_level_7()
   enquecommand_P(PSTR("G1 Z0 F1500"));
   currentMenu = lcd_wizard_menu;
 }
-
+*/
 void clean_1()
 {
 	enquecommand_P(PSTR("G28"));
@@ -1126,7 +1128,7 @@ void clean_7()
 void extrude_1()
 {
     enquecommand_P(PSTR("G28"));
-    enquecommand_P(PSTR("G1 X105 Y80 Z60 F2000"));
+    enquecommand_P(PSTR("G1 X120 Y0 E-50 Z40 F2000"));
     encoderPosition = 0;
     currentMenu = lcd_extrude1_menu;
 }
@@ -1209,21 +1211,21 @@ static void disable_motors()
 {
     //encoder_steps_per_menu_item = 7;
     //enquecommand_P(PSTR("M500"));
-    
+
     enquecommand_P(PSTR("M84"));
     motor_enabled = false;
-    
+
 
 }
 static void enable_motors()
 {
     //encoder_steps_per_menu_item = 2;
     //enquecommand_P(PSTR("M500"));
-    
+
 	enquecommand_P(PSTR("G91"));
 	enquecommand_P(PSTR("G1 X0.1 Y0.1 Z0.1"));
     motor_enabled = true;
-    
+
 }
 static void disable_fan()
 {
@@ -1323,7 +1325,7 @@ static void lcd_move_z()
     {
         lcd_quick_feedback();
         currentMenu = lcd_axis_menu;
-          // currentMenu = lcd_move_menu_axis; 
+          // currentMenu = lcd_move_menu_axis;
         encoderPosition = 0;
     }
 }
@@ -1450,26 +1452,34 @@ static void lcd_bed1_menu()
 static void lcd_bed2_menu()
 {
     START_MENU();
-	lcd_bed2_screen();
- 	if (degHotend(0)> 98)
-	{
-		bed_level_3();
-	}
-
-    //MENU_ITEM(function, MSG_CONTINUE, 'b', bed_level_3);
+  lcd_bed2_screen();
+    MENU_ITEM(function, MSG_CONTINUE, 'b', bed_level_3);
     MENU_ITEM(back, MSG_EXIT, 'b', lcd_main_menu);
     END_MENU();
 }
-
 static void lcd_bed3_menu()
 {
     START_MENU();
 	lcd_bed3_screen();
-
-    MENU_ITEM(function, MSG_CONTINUE, 'b', bed_level_4);
+ 	if (degHotend(0)> 180)
+	{
+		bed_level_3();
+	}
+    //MENU_ITEM(function, MSG_CONTINUE, 'b', bed_level_4);
     MENU_ITEM(back, MSG_EXIT, 'b', lcd_main_menu);
     END_MENU();
 }
+
+/*static void lcd_bed4_menu()
+{
+    START_MENU();
+	lcd_bed4_screen();
+
+//    MENU_ITEM(function, MSG_CONTINUE, 'b', bed_level_4);
+    MENU_ITEM(back, MSG_EXIT, 'b', lcd_main_menu);
+    END_MENU();
+}
+
 static void lcd_bed4_menu()
 {
     START_MENU();
@@ -1497,7 +1507,7 @@ static void lcd_bed6_menu()
     MENU_ITEM(function, MSG_RESTART, 'b', bed_level_1);
     END_MENU();
 }
-
+*/
 static void lcd_clean1_menu()
 {
     START_MENU();
@@ -1550,7 +1560,7 @@ static void lcd_clean5_menu()
 220
 25 // 10 minutes
 start 115 goto160
-g1 e-80 f30 
+g1 e-80 f30
 
 
 */
@@ -1827,7 +1837,7 @@ void look_for_time_estimate(char *filename_time_est) {
         serial_char = (char) n;
 
         if (serial_char == '\n' || serial_char == '\r' || serial_char == '\r\n') {
-            
+
             if (comment_mode == true) {
                 if (time_est_buffer[linenum][1] == 'P' && time_est_buffer[linenum][2] == 'r') {
                     //SERIAL_ECHO_START;
@@ -1915,27 +1925,27 @@ void lcd_sdcard_menu()
                 MENU_ITEM(sddirectory, MSG_CARD_MENU, ' ', card.filename, card.longFilename);
             }else{
                 char filename_time_est[LONG_FILENAME_LENGTH];
-                
+
                 //long filename reading here:
-                
+
                 /*
                 int filenameMaxLen = 13;
                 char choppedFilename[filenameMaxLen+1];
-                
+
                 if (card.longFilename[0] == '\0') {
                     strcpy(choppedFilename, card.filename);
                 } else {
                     memcpy(choppedFilename, card.longFilename, filenameMaxLen);
                 }
-                
+
                 choppedFilename[filenameMaxLen] = '\0';
-                
+
                 //SERIAL_PROTOCOL(choppedFilename);
                 */
-                
+
                 strcpy(filename_time_est, card.filename);
                 char * filename_time_est_pointer = filename_time_est;
-                
+
                 int whitespaces;
                 whitespaces = 14-strlen(card.filename);
                 //whitespaces = 14-strlen(choppedFilename);
@@ -1945,7 +1955,7 @@ void lcd_sdcard_menu()
                 {
                     strcat(filename_time_est_pointer," ");
                 }
-                
+
                 card.openFile(card.filename, true, false);
                 const char* time_est_hours = itostr2(card.timeEstimate/60);
                 strcat(filename_time_est_pointer, time_est_hours);
@@ -2146,7 +2156,7 @@ void lcd_init()
   #ifdef SR_LCD_2W_NL // Non latching 2 wire shift register
      pinMode (SR_DATA_PIN, OUTPUT);
      pinMode (SR_CLK_PIN, OUTPUT);
-  #elif defined(SHIFT_CLK) 
+  #elif defined(SHIFT_CLK)
      pinMode(SHIFT_CLK,OUTPUT);
      pinMode(SHIFT_LD,OUTPUT);
      pinMode(SHIFT_EN,OUTPUT);

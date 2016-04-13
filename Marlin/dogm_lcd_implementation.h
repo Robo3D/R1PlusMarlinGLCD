@@ -95,11 +95,11 @@ static void lcd_implementation_init()
 	digitalWrite(LCD_PIN_BL, HIGH);
 #endif
 
-        u8g.setContrast(lcd_contrast);	
+        u8g.setContrast(lcd_contrast);
 	//  Uncomment this if you have the first generation (V1.10) of STBs board
 	//  pinMode(17, OUTPUT);	// Enable LCD backlight
 	//  digitalWrite(17, HIGH);
-	
+
 	u8g.firstPage();
 	do {
 		u8g.setFont(u8g_font_6x10_marlin);
@@ -120,14 +120,14 @@ static void lcd_implementation_init()
 	u8g.setRot270();	// Rotate screen by 270°
 #endif
 
-   
+
 	u8g.firstPage();
 	do {
 			// RepRap init bmp
 			u8g.drawBitmapP(0,0,START_BMPBYTEWIDTH,START_BMPHEIGHT,start_bmp);
 			//Welcome message
 			u8g.setFont(u8g_font_6x10_marlin);
-			u8g.drawStr(130,10,"MARLIN"); 
+			u8g.drawStr(130,10,"MARLIN");
 			u8g.setFont(u8g_font_5x8);
 			u8g.drawStr(130,19,"V1.1.b");
 			u8g.setFont(u8g_font_6x10_marlin);
@@ -140,7 +140,7 @@ static void lcd_implementation_init()
 			u8g.drawStr(130,61,"uses u");
 			u8g.drawStr90(130,57,"8");
 			u8g.drawStr(130,61,"glib");
-			
+
 	   } while( u8g.nextPage() );
 }
 
@@ -151,7 +151,7 @@ static void lcd_implementation_clear()
 // Check this article: http://arduino.cc/forum/index.php?topic=91395.25;wap2
 //
 //	u8g.firstPage();
-//	do {	
+//	do {
 //			u8g.setColorIndex(0);
 //			u8g.drawBox (0, 0, u8g.getWidth(), u8g.getHeight());
 //			u8g.setColorIndex(1);
@@ -173,7 +173,7 @@ static void lcd_implementation_status_screen()
 {
 
  static unsigned char fan_rot = 0;
- 
+
  u8g.setColorIndex(1);	// black on white
  u8g.drawBitmapP(0,0,STATUS_SCREENBYTEWIDTH,STATUS_SCREENHEIGHT,status_screen_bmp);
  // Symbols menu graphics, animated fan
@@ -188,10 +188,10 @@ static void lcd_implementation_status_screen()
  //u8g.drawPixel(50,43);
  // Progress bar
  //u8g.drawFrame(54,49,73,4);
- 
+
  // SD Card Progress bar and clock
  u8g.setFont(FONT_STATUSMENU);
- 
+
 
 // Progress bar
 u8g.setPrintPos(9,35);
@@ -203,7 +203,7 @@ if (IS_SD_PRINTING) {
 }
 
  static uint16_t oldtime=0;
- 
+
  if(starttime != 0)
     {
 		if (IS_SD_PRINTING) {
@@ -213,12 +213,12 @@ if (IS_SD_PRINTING) {
 			u8g.print(':');
 			u8g.print(itostr2(time%60));
 			oldtime = time;
-            
+
             int remainingTime = card.timeEstimate - time;
             if (remainingTime < 0) {
                 remainingTime = 0;
             }
-            
+
             u8g.setPrintPos(82,57);
             if (remainingTime > 0) {
                 u8g.print(itostr2((remainingTime)/60));
@@ -229,7 +229,7 @@ if (IS_SD_PRINTING) {
                 lcd_printPGM(PSTR("--:--"));
             }
 
-            
+
 		} else {
             u8g.setPrintPos(82,33);
 			u8g.print(itostr2(oldtime/60));
@@ -238,7 +238,7 @@ if (IS_SD_PRINTING) {
             u8g.setPrintPos(82,57);
             lcd_printPGM(PSTR("--:--"));
 		}
-		
+
     }else{
             u8g.setPrintPos(82,33);
 			lcd_printPGM(PSTR("--:--"));
@@ -247,7 +247,7 @@ if (IS_SD_PRINTING) {
             lcd_printPGM(PSTR("--:--"));
 		 }
  #endif
- 
+
  // Extruder 1
  u8g.setFont(FONT_STATUSMENU);
  //u8g.setPrintPos(6,12);
@@ -256,6 +256,9 @@ if (IS_SD_PRINTING) {
  u8g.setPrintPos(3,55);
  u8g.print(itostr3(int(degHotend(0) + 0.5)));
  lcd_printPGM(PSTR(LCD_STR_DEGREE "C"));
+ //u8g.setPrintPos(30,55);
+ //u8g.print(itostr3(int(degBed(0) + 0.5)));
+ //lcd_printPGM(PSTR(LCD_STR_DEGREE "C"));
 
   /*
  if (!isHeatingHotend(0)) u8g.drawBox(13,17,2,2);
@@ -286,7 +289,7 @@ if (IS_SD_PRINTING) {
  u8g.setPrintPos(31,27);
  u8g.print("---");
  #endif
- 
+
  // Extruder 3
  u8g.setFont(FONT_STATUSMENU);
  # if EXTRUDERS > 2
@@ -307,23 +310,23 @@ if (IS_SD_PRINTING) {
  u8g.setPrintPos(55,27);
  u8g.print("---");
  #endif
- 
+ */
  // Heatbed
  u8g.setFont(FONT_STATUSMENU);
- u8g.setPrintPos(81,6);
- u8g.print(itostr3(int(degTargetBed() + 0.5)));
- lcd_printPGM(PSTR(LCD_STR_DEGREE " "));
- u8g.setPrintPos(81,27);
+ //u8g.setPrintPos(81,6);
+ //u8g.print(itostr3(int(degTargetBed() + 0.5)));
+ //lcd_printPGM(PSTR(LCD_STR_DEGREE " "));
+ u8g.setPrintPos(35,55);
  u8g.print(itostr3(int(degBed() + 0.5)));
- lcd_printPGM(PSTR(LCD_STR_DEGREE " "));
- if (!isHeatingBed()) u8g.drawBox(88,18,2,2);
-	else
-		{
-		 u8g.setColorIndex(0);	// white on black
-		 u8g.drawBox(88,18,2,2);
-		 u8g.setColorIndex(1);	// black on white
-		}
- 
+ lcd_printPGM(PSTR(LCD_STR_DEGREE "C"));
+ //if (!isHeatingBed()) u8g.drawBox(88,18,2,2);
+//	else
+//		{
+//		 u8g.setColorIndex(0);	// white on black
+//		 u8g.drawBox(88,18,2,2);
+//		 u8g.setColorIndex(1);	// black on white
+//		}
+ /*
  // Fan
  u8g.setFont(FONT_STATUSMENU);
  u8g.setPrintPos(104,27);
@@ -333,8 +336,8 @@ if (IS_SD_PRINTING) {
  #else
  u8g.print("---");
  #endif
- 
- 
+
+
  // X, Y, Z-Coordinates
  u8g.setFont(FONT_STATUSMENU);
  u8g.drawBox(0,29,128,10);
@@ -358,7 +361,7 @@ if (IS_SD_PRINTING) {
  u8g.setPrintPos(91,37);
  u8g.print(ftostr31(current_position[Z_AXIS]));
  u8g.setColorIndex(1);	// black on white
- 
+
  // Feedrate
  u8g.setFont(u8g_font_6x10_marlin);
  u8g.setPrintPos(3,49);
@@ -372,13 +375,13 @@ if (IS_SD_PRINTING) {
  u8g.setColorIndex(0);
  u8g.setFont(FONT_STATUSMENU);
  u8g.setPrintPos(2,7);
- 
- 
+
+
 if (card.filename && card.sdprinting) {
 	u8g.print("Printing:");
 	//u8g.print(card.longFilename);
 	u8g.print(card.filename);
-	
+
 } else if(card.filename && card.changingFilament) {
 	u8g.print("Change Filament");
 }
@@ -399,7 +402,7 @@ if (card.filename && card.sdprinting) {
 // u8g.drawVLine(43,0,63);
 // u8g.drawVLine(86,0,63);
  //   void drawVLine(u8g_uint_t x, u8g_uint_t y, u8g_uint_t h) { u8g_DrawVLine(&u8g, x, y, h); }
- 
+
 }
 static void lcd_implementation_main_screen()
 {
@@ -427,7 +430,7 @@ static void lcd_implementation_bed_wizard_screen1()
  u8g.setColorIndex(1);	// black on white
  u8g.drawFrame(0,0,128,64);
  u8g.drawHLine(0,54,128);
- u8g.drawHLine(0,10,128); 
+ u8g.drawHLine(0,10,128);
  //u8g.drawVLine(43,0,63);
  //u8g.drawVLine(86,0,63);
  u8g.setPrintPos(4,9);
@@ -437,41 +440,43 @@ static void lcd_implementation_bed_wizard_screen1()
  u8g.setPrintPos(2,11+16);
  u8g.print(MSG_WIZARD1_3);
  u8g.setPrintPos(2,11+24);
- u8g.print(MSG_WIZARD1_4);
+u8g.print(MSG_WIZARD1_4);
  u8g.setPrintPos(2,11+32);
  u8g.print(MSG_WIZARD1_5);
  u8g.setPrintPos(2,11+40);
  u8g.print(MSG_WIZARD1_6);
- 
+
  //u8g.drawBitmapP(0,0,STATUS_SCREENBYTEWIDTH,STATUS_SCREENHEIGHT,wizard_screen_bmp);
 }
+//SWITCHED THESE TWO SCREENS
 static void lcd_implementation_bed_wizard_screen2()
 {
- u8g.setColorIndex(1);	// black on white
+  u8g.setColorIndex(1);	// black on white
  u8g.drawFrame(0,0,128,64);
  u8g.drawHLine(0,54,128);
- u8g.drawHLine(0,10,128); 
- //u8g.drawVLine(43,0,63);
- //u8g.drawVLine(86,0,63);
+ u8g.drawHLine(0,10,128);
  u8g.setPrintPos(4,9);
  u8g.print(MSG_WIZARD2_1);
  u8g.setPrintPos(2,11+8);
  u8g.print(MSG_WIZARD2_2);
  u8g.setPrintPos(2,11+16);
  u8g.print(MSG_WIZARD2_3);
- 
+
 u8g.setPrintPos(9,35);
 u8g.drawFrame(4,45,100,4);
 u8g.drawBox(5,46, (unsigned int)( (100 * degHotend(0))/98) ,3); //TODO: add temp reading
- 
+
  //u8g.drawBitmapP(0,0,STATUS_SCREENBYTEWIDTH,STATUS_SCREENHEIGHT,wizard_screen_bmp);
 }
 static void lcd_implementation_bed_wizard_screen3()
 {
- u8g.setColorIndex(1);	// black on white
+
+  u8g.setColorIndex(1);	// black on white
  u8g.drawFrame(0,0,128,64);
- u8g.drawHLine(0,54,128); 
- u8g.drawHLine(0,10,128); 
+ u8g.drawHLine(0,54,128);
+ u8g.drawHLine(0,10,128);
+ //u8g.drawVLine(43,0,63);
+ //u8g.drawVLine(86,0,63);
  u8g.setPrintPos(4,9);
  u8g.print(MSG_WIZARD3_1);
  u8g.setPrintPos(2,11+8);
@@ -480,37 +485,33 @@ static void lcd_implementation_bed_wizard_screen3()
  u8g.print(MSG_WIZARD3_3);
  u8g.setPrintPos(2,11+24);
  u8g.print(MSG_WIZARD3_4);
- u8g.setPrintPos(2,11+32);
- u8g.print(MSG_WIZARD3_5);
- u8g.setPrintPos(2,11+40);
- u8g.print(MSG_WIZARD3_6);
- 
+
 }
-static void lcd_implementation_bed_wizard_screen4()
+/*static void lcd_implementation_bed_wizard_screen4()
 {
  u8g.setColorIndex(1);	// black on white
  u8g.drawFrame(0,0,128,64);
- u8g.drawHLine(0,54,128); 
- u8g.drawHLine(0,10,128); 
+ u8g.drawHLine(0,54,128);
+ u8g.drawHLine(0,10,128);
  u8g.setPrintPos(4,9);
- u8g.print(MSG_WIZARD4_1);
+ u8g.print(MSG_WIZARD3_1);
  u8g.setPrintPos(2,11+8);
  u8g.print(MSG_WIZARD3_2);
  u8g.setPrintPos(2,11+16);
  u8g.print(MSG_WIZARD3_3);
  u8g.setPrintPos(2,11+24);
- u8g.print(MSG_WIZARD3_4);
- u8g.setPrintPos(2,11+32);
- u8g.print(MSG_WIZARD3_5);
- u8g.setPrintPos(2,11+40);
- u8g.print(MSG_WIZARD3_6);
+// u8g.print(MSG_WIZARD3_4);
+ //u8g.setPrintPos(2,11+32);
+// u8g.print(MSG_WIZARD3_5);
+// u8g.setPrintPos(2,11+40);
+// u8g.print(MSG_WIZARD3_6);
 }
 static void lcd_implementation_bed_wizard_screen5()
 {
  u8g.setColorIndex(1);	// black on white
  u8g.drawFrame(0,0,128,64);
- u8g.drawHLine(0,54,128); 
- u8g.drawHLine(0,10,128); 
+ u8g.drawHLine(0,54,128);
+ u8g.drawHLine(0,10,128);
  u8g.setPrintPos(4,9);
  u8g.print(MSG_WIZARD5_1);
  u8g.setPrintPos(2,11+8);
@@ -518,18 +519,18 @@ static void lcd_implementation_bed_wizard_screen5()
  u8g.setPrintPos(2,11+16);
  u8g.print(MSG_WIZARD3_3);
  u8g.setPrintPos(2,11+24);
- u8g.print(MSG_WIZARD3_4);
- u8g.setPrintPos(2,11+32);
- u8g.print(MSG_WIZARD3_5);
- u8g.setPrintPos(2,11+40);
- u8g.print(MSG_WIZARD3_6);
+// u8g.print(MSG_WIZARD3_4);
+// u8g.setPrintPos(2,11+32);
+// u8g.print(MSG_WIZARD3_5);
+// u8g.setPrintPos(2,11+40);
+// u8g.print(MSG_WIZARD3_6);
 }
 static void lcd_implementation_bed_wizard_screen6()
 {
  u8g.setColorIndex(1);	// black on white
  u8g.drawFrame(0,0,128,64);
- u8g.drawHLine(0,54,128); 
- u8g.drawHLine(0,10,128); 
+ u8g.drawHLine(0,54,128);
+ u8g.drawHLine(0,10,128);
  u8g.setPrintPos(4,9);
  u8g.print(MSG_WIZARD6_1);
  u8g.setPrintPos(2,11+8);
@@ -543,13 +544,13 @@ static void lcd_implementation_bed_wizard_screen6()
  u8g.setPrintPos(2,11+40);
  u8g.print(MSG_WIZARD6_6);
 }
-
+*/
 static void lcd_implementation_clean_wizard_screen1()
 {
  u8g.setColorIndex(1);	// black on white
  u8g.drawFrame(0,0,128,64);
  u8g.drawHLine(0,54,128);
- u8g.drawHLine(0,10,128); 
+ u8g.drawHLine(0,10,128);
 
  u8g.setPrintPos(4,9);
  u8g.print(MSG_CLEAN_WIZARD1_1);
@@ -569,7 +570,7 @@ static void lcd_implementation_clean_wizard_screen2()
  u8g.setColorIndex(1);	// black on white
  u8g.drawFrame(0,0,128,64);
  u8g.drawHLine(0,54,128);
- u8g.drawHLine(0,10,128); 
+ u8g.drawHLine(0,10,128);
 
  u8g.setPrintPos(4,9);
  u8g.print(MSG_CLEAN_WIZARD2_1);
@@ -577,7 +578,7 @@ static void lcd_implementation_clean_wizard_screen2()
  u8g.print(MSG_CLEAN_WIZARD2_2);
  u8g.setPrintPos(2,11+16);
  u8g.print(MSG_CLEAN_WIZARD2_3);
- 
+
 u8g.setPrintPos(9,35);
 u8g.drawFrame(4,45,100,4);
 u8g.drawBox(5,46, (unsigned int)( (100 * degHotend(0))/210) ,3); //TODO: add temp reading
@@ -589,7 +590,7 @@ static void lcd_implementation_clean_wizard_screen3()
  u8g.setColorIndex(1);	// black on white
  u8g.drawFrame(0,0,128,64);
  u8g.drawHLine(0,54,128);
- u8g.drawHLine(0,10,128); 
+ u8g.drawHLine(0,10,128);
 
  u8g.setPrintPos(4,9);
  u8g.print(MSG_CLEAN_WIZARD3_1);
@@ -603,7 +604,7 @@ static void lcd_implementation_clean_wizard_screen3()
  u8g.print(MSG_CLEAN_WIZARD3_5);
  u8g.setPrintPos(2,11+40);
  u8g.print(MSG_CLEAN_WIZARD3_6);
- 
+
 //u8g.setPrintPos(9,35);
 //u8g.drawFrame(4,45,100,4);
 //u8g.drawBox(5,46, (unsigned int)( (50+( 220-degHotend(0)/100*50) )) ,3);
@@ -613,7 +614,7 @@ static void lcd_implementation_clean_wizard_screen4()
  u8g.setColorIndex(1);	// black on white
  u8g.drawFrame(0,0,128,64);
  u8g.drawHLine(0,54,128);
- u8g.drawHLine(0,10,128); 
+ u8g.drawHLine(0,10,128);
 
  u8g.setPrintPos(4,9);
  u8g.print(MSG_CLEAN_WIZARD4_1);
@@ -633,7 +634,7 @@ static void lcd_implementation_clean_wizard_screen5()
  u8g.setColorIndex(1);	// black on white
  u8g.drawFrame(0,0,128,64);
  u8g.drawHLine(0,54,128);
- u8g.drawHLine(0,10,128); 
+ u8g.drawHLine(0,10,128);
 
  u8g.setPrintPos(4,9);
  u8g.print(MSG_CLEAN_WIZARD5_1);
@@ -649,7 +650,7 @@ static void lcd_implementation_clean_wizard_screen6()
  u8g.setColorIndex(1);	// black on white
  u8g.drawFrame(0,0,128,64);
  u8g.drawHLine(0,54,128);
- u8g.drawHLine(0,10,128); 
+ u8g.drawHLine(0,10,128);
 
  u8g.setPrintPos(4,9);
  u8g.print(MSG_CLEAN_WIZARD6_1);
@@ -660,7 +661,7 @@ static void lcd_implementation_clean_wizard_screen7()
  u8g.setColorIndex(1);	// black on white
  u8g.drawFrame(0,0,128,64);
  u8g.drawHLine(0,54,128);
- u8g.drawHLine(0,10,128); 
+ u8g.drawHLine(0,10,128);
 
  u8g.setPrintPos(4,9);
  u8g.print(MSG_CLEAN_WIZARD7_1);
@@ -672,7 +673,7 @@ static void lcd_implementation_extrude_screen1()
  u8g.setColorIndex(1);	// black on white
  u8g.drawFrame(0,0,128,64);
  u8g.drawHLine(0,54,128);
- u8g.drawHLine(0,10,128); 
+ u8g.drawHLine(0,10,128);
 
  u8g.setPrintPos(4,9);
  u8g.print(MSG_EXTRUDE1_1);
@@ -689,7 +690,7 @@ static void lcd_implementation_extrude_screen2()
  u8g.setColorIndex(1);	// black on white
  u8g.drawFrame(0,0,128,64);
  u8g.drawHLine(0,54,128);
- u8g.drawHLine(0,10,128); 
+ u8g.drawHLine(0,10,128);
 
  u8g.setPrintPos(4,9);
  u8g.print(MSG_EXTRUDE2_1);
@@ -697,7 +698,7 @@ static void lcd_implementation_extrude_screen2()
  u8g.print(MSG_EXTRUDE2_2);
  u8g.setPrintPos(2,11+16);
  u8g.print(MSG_EXTRUDE2_3);
- 
+
 u8g.setPrintPos(9,35);
 u8g.drawFrame(4,45,100,4);
 u8g.drawBox(5,46, (unsigned int)( (100 * degHotend(0))/220) ,3); //TODO: add temp reading
@@ -709,7 +710,7 @@ static void lcd_implementation_extrude_screen3()
  u8g.setColorIndex(1);	// black on white
  u8g.drawFrame(0,0,128,64);
  u8g.drawHLine(0,54,128);
- u8g.drawHLine(0,10,128); 
+ u8g.drawHLine(0,10,128);
 
  u8g.setPrintPos(4,9);
  u8g.print(MSG_EXTRUDE3_1);
@@ -726,15 +727,15 @@ static void lcd_implementation_temperature_screen()
 {
  u8g.setColorIndex(1);	// black on white
  u8g.drawBitmapP(0,0,STATUS_SCREENBYTEWIDTH,STATUS_SCREENHEIGHT,temperature_screen_bmp);
- 
+
  u8g.setPrintPos(24,20);
  u8g.print("Temp:");
  u8g.print(itostr3(degHotend(0)));
  u8g.print(LCD_STR_DEGREE "C");
- 
+
  u8g.setPrintPos(24,32);
  u8g.drawFrame(24,22,80,4);
- unsigned int tempProgress = 80 * degHotend(0)/220; 
+ unsigned int tempProgress = 80 * degHotend(0)/220;
  if (tempProgress > 79) {
     tempProgress = 79;
     }
@@ -745,14 +746,14 @@ static void lcd_implementation_dial_sensitivity_screen()
 {
  u8g.setColorIndex(1);	// black on white
  u8g.drawBitmapP(0,0,STATUS_SCREENBYTEWIDTH,STATUS_SCREENHEIGHT,button_sensitivity_screen_bmp);
- 
+
  u8g.setPrintPos(2,9+8);
  u8g.print(MSG_DIAL_SENSITIVITY_1);
  u8g.setPrintPos(2,9+16);
  u8g.print(MSG_DIAL_SENSITIVITY_2);
  u8g.setPrintPos(2,9+24);
  u8g.print(MSG_DIAL_SENSITIVITY_3);
- 
+
  u8g.setPrintPos(8,10+32);
  if (encoder_steps_per_menu_item < 7) {
     u8g.print("Sensitivity - High");
@@ -774,20 +775,20 @@ static void lcd_implementation_drawmenu_generic2(uint8_t row, const char* pstr, 
     char c;
     int columnSpace;
     uint8_t n = LCD_WIDTH - 1 - 2;
-    
+
 		if (row < 2) {
 		  columnSpace = 32-9;
 		} else {
 		  columnSpace = 64-9;
 		}
-                
+
 		if ((pre_char == '>') || (pre_char == LCD_STR_UPLEVEL[0] ))
 		   {
 			u8g.setColorIndex(1);		// black on white
 			u8g.drawBox ((row+1)%3 *43, columnSpace, 42, 9);
 			u8g.setColorIndex(0);		// following text must be white on black
 		   } else u8g.setColorIndex(1); // unmarked text is black on white
-		
+
 		u8g.setPrintPos(0 * DOG_CHAR_WIDTH, (row + 1) * DOG_CHAR_HEIGHT);
 		u8g.setPrintPos(1 + ((row+1)%3)*43, 8 + columnSpace);
 		//if (pre_char != '>') u8g.print(pre_char); else u8g.print('~');	// Row selector is obsolete
@@ -802,7 +803,7 @@ static void lcd_implementation_drawmenu_generic2(uint8_t row, const char* pstr, 
     while(n--){
 					u8g.print(' ');
 		}
-	   
+
 		u8g.print(post_char);
 		u8g.print(' ');
 		u8g.setColorIndex(1);		// restore settings to black on white
@@ -816,7 +817,7 @@ static void lcd_implementation_drawmenu_generic(uint8_t row, const char* pstr, c
 	int bumpx;
     uint8_t n = LCD_WIDTH - 1;
 
-		
+
 	if (location == 'm') //m is the main menu
 	{
 		if (row < 2) {
@@ -824,14 +825,14 @@ static void lcd_implementation_drawmenu_generic(uint8_t row, const char* pstr, c
 		} else {
 		  columnSpace = 64-9;
 		}
-                
+
 		if ((pre_char == '>') || (pre_char == LCD_STR_UPLEVEL[0] ))
 		   {
 			u8g.setColorIndex(1);		// black on white
 			u8g.drawBox ((row+1)%3 *43, columnSpace, 42, 9);
 			u8g.setColorIndex(0);		// following text must be white on black
 		   } else u8g.setColorIndex(1); // unmarked text is black on white
-		   
+
 		if (row == 2) {
 			bumpx = 0; //control
 		} else if (row == 3) {
@@ -844,7 +845,7 @@ static void lcd_implementation_drawmenu_generic(uint8_t row, const char* pstr, c
 		//u8g.setPrintPos(0 * DOG_CHAR_WIDTH, (row + 1) * DOG_CHAR_HEIGHT);
 		u8g.setPrintPos(1 + ((row+1)%3)*43 + bumpx, 8 + columnSpace);
 		//if (pre_char != '>') u8g.print(pre_char); else u8g.print('~');	// Row selector is obsolete
-	
+
 	} else if (location == 'a') { //a is the axis menu
 
 		if (row < 2) {
@@ -852,18 +853,18 @@ static void lcd_implementation_drawmenu_generic(uint8_t row, const char* pstr, c
 		} else {
 		  columnSpace = 64-19;
 		}
-                
+
 		if ((pre_char == '>') || (pre_char == LCD_STR_UPLEVEL[0] ) )
 		   {
 			u8g.setColorIndex(1);		// black on white
 			if (row == 5) {
 				u8g.drawBox (42, columnSpace+9, 44, 9);
-			} else { 
+			} else {
 				u8g.drawBox ((row+1)%3 *43, columnSpace, 42, 9);
 			}
 			u8g.setColorIndex(0);		// following text must be white on black
 		   } else u8g.setColorIndex(1); // unmarked text is black on white
-		
+
 		u8g.setPrintPos(0 * DOG_CHAR_WIDTH, (row + 1) * DOG_CHAR_HEIGHT);
 		if (row == 5) {
 			u8g.setPrintPos(52, 17 + columnSpace);
@@ -871,8 +872,8 @@ static void lcd_implementation_drawmenu_generic(uint8_t row, const char* pstr, c
 			u8g.setPrintPos(1 + ((row+1)%3)*43, 8 + columnSpace);
 		}
 		//if (pre_char != '>') u8g.print(pre_char); else u8g.print('~');	// Row selector is obsolete
-	
-	
+
+
 	} else if (location == 'w') { //w is the wizard menu
 		//u8g.drawBox (40, 54, 41, 12);
 		if (row < 2) {
@@ -880,13 +881,13 @@ static void lcd_implementation_drawmenu_generic(uint8_t row, const char* pstr, c
 		} else {
 		  columnSpace = 64-16;
 		}
-                
+
 		if ((pre_char == '>') || (pre_char == LCD_STR_UPLEVEL[0] ) )
 		   {
 			u8g.setColorIndex(1);		// black on white
 			if (row == 2) {
 				u8g.drawBox (40, 54, 41, 12);
-			} else if(row == 0) { 
+			} else if(row == 0) {
 				u8g.drawBox (0, columnSpace, 62, 9);
 			} else if(row == 1) {
 				u8g.drawBox (62, columnSpace, 66, 9);
@@ -894,7 +895,7 @@ static void lcd_implementation_drawmenu_generic(uint8_t row, const char* pstr, c
 			}
 			u8g.setColorIndex(0);		// following text must be white on black
 		   } else u8g.setColorIndex(1); // unmarked text is black on white
-		
+
 		u8g.setPrintPos(0 * DOG_CHAR_WIDTH, (row + 1) * DOG_CHAR_HEIGHT);
 		if (row == 2) {
 			u8g.setPrintPos(50, 63);
@@ -904,19 +905,19 @@ static void lcd_implementation_drawmenu_generic(uint8_t row, const char* pstr, c
 			u8g.setPrintPos(64, 8 + columnSpace);
 		}
 		//if (pre_char != '>') u8g.print(pre_char); else u8g.print('~');	// Row selector is obsolete
-	
+
 	} else if (location == 'b') { //b is the bed level wizard menu
 		//u8g.drawBox (40, 54, 41, 12);
 
 		  columnSpace = 64-9;
 
-                
+
 		if ((pre_char == '>') || (pre_char == LCD_STR_UPLEVEL[0] ) )
 		   {
 			u8g.setColorIndex(1);		// black on white
 			if (row == 2) {
 				u8g.drawBox (40, 54, 41, 12);
-			} else if(row == 0) { 
+			} else if(row == 0) {
 				u8g.drawBox (0, columnSpace, 64, 9);
 			} else if(row == 1) {
 				u8g.drawBox (64, columnSpace, 64, 9);
@@ -924,7 +925,7 @@ static void lcd_implementation_drawmenu_generic(uint8_t row, const char* pstr, c
 			}
 			u8g.setColorIndex(0);		// following text must be white on black
 		   } else u8g.setColorIndex(1); // unmarked text is black on white
-		
+
 		u8g.setPrintPos(0 * DOG_CHAR_WIDTH, (row + 1) * DOG_CHAR_HEIGHT);
 		if (row == 2) {
 			u8g.setPrintPos(50, 63);
@@ -934,7 +935,7 @@ static void lcd_implementation_drawmenu_generic(uint8_t row, const char* pstr, c
 			u8g.setPrintPos(71, 8 + columnSpace);
 		}
 		//if (pre_char != '>') u8g.print(pre_char); else u8g.print('~');	// Row selector is obsolete
-	
+
 	} else if (location == 't') { //t is the temp menu
 		if (row < 1) {
 		  columnSpace = 45+6;
@@ -959,7 +960,7 @@ static void lcd_implementation_drawmenu_generic(uint8_t row, const char* pstr, c
 			u8g.setPrintPos(24, 35);
 			u8g.print(MSG_COOLEDDOWN);
 		}
-		
+
 		/*else if(int(degTargetHotend(0)) > 0 && int(degTargetHotend(0))-int(degHotend(0)) < 10 ) {
 			u8g.setPrintPos(40, 55);
 			u8g.print(WELCOME_MSG);
@@ -972,10 +973,10 @@ static void lcd_implementation_drawmenu_generic(uint8_t row, const char* pstr, c
 		   {
 			u8g.setColorIndex(1);		// black on white
 			u8g.drawBox (0, columnSpace-4, 128, 9);
-            
+
 			u8g.setColorIndex(0);		// following text must be white on black
 		   } else u8g.setColorIndex(1); // unmarked text is black on white
-		
+
 		u8g.setPrintPos(0 * DOG_CHAR_WIDTH, (row + 1) * DOG_CHAR_HEIGHT);
 		if (row == 1) {
         u8g.setPrintPos(50, 4 + columnSpace);
@@ -985,7 +986,7 @@ static void lcd_implementation_drawmenu_generic(uint8_t row, const char* pstr, c
 		}
 		//if (pre_char != '>') u8g.print(pre_char); else u8g.print('~');	// Row selector is obsolete
 
-		
+
 	} else if (location == 's') { //s is the button Sensitivity
 		if (row < 1) {
 		  columnSpace = 43+6;
@@ -998,10 +999,10 @@ static void lcd_implementation_drawmenu_generic(uint8_t row, const char* pstr, c
 		   {
 			u8g.setColorIndex(1);		// black on white
 			u8g.drawBox (0, columnSpace-4, 128, 11);
-            
+
 			u8g.setColorIndex(0);		// following text must be white on black
 		   } else u8g.setColorIndex(1); // unmarked text is black on white
-		
+
 		u8g.setPrintPos(0 * DOG_CHAR_WIDTH, (row + 1) * DOG_CHAR_HEIGHT);
 		if (row == 1) {
         u8g.setPrintPos(50, 4 + columnSpace);
@@ -1018,7 +1019,7 @@ static void lcd_implementation_drawmenu_generic(uint8_t row, const char* pstr, c
 			u8g.drawBox (0, row*DOG_CHAR_HEIGHT + 3, 128, DOG_CHAR_HEIGHT);
 			u8g.setColorIndex(0);		// following text must be white on black
 		   } else u8g.setColorIndex(1); // unmarked text is black on white
-		
+
 		u8g.setPrintPos(0 * DOG_CHAR_WIDTH, (row + 1) * DOG_CHAR_HEIGHT);
 		//if (pre_char != '>') u8g.print(pre_char); else u8g.print(' ');	// Row selector is obsolete
 	}
@@ -1032,11 +1033,11 @@ static void lcd_implementation_drawmenu_generic(uint8_t row, const char* pstr, c
     while(n--){
 					u8g.print(' ');
 		}
-	   
+
 		u8g.print(post_char);
 		u8g.print(' ');
 		u8g.setColorIndex(1);		// restore settings to black on white
-		
+
 }
 
 static void lcd_implementation_drawmenu_setting_edit_generic(uint8_t row, const char* pstr, char pre_char, char* data)
@@ -1045,10 +1046,10 @@ static void lcd_implementation_drawmenu_setting_edit_generic(uint8_t row, const 
 	int columnSpace;
 	char c;
     uint8_t n = LCD_WIDTH - 1 - 2 - strlen(data);
-		
+
 		//u8g.setPrintPos(0 * DOG_CHAR_WIDTH, (row + 1) * DOG_CHAR_HEIGHT);
 		//u8g.print(pre_char);
-		
+
 	if (1)
 	{
 		if (row < 2) {
@@ -1056,30 +1057,30 @@ static void lcd_implementation_drawmenu_setting_edit_generic(uint8_t row, const 
 		} else {
 		  columnSpace = 64-9;
 		}
-                
+
 		if ((pre_char == '>') || (pre_char == LCD_STR_UPLEVEL[0] ))
 		   {
 			u8g.setColorIndex(1);		// black on white
 			u8g.drawBox ((row+1)%3 *43, columnSpace, 42, 9);
 			u8g.setColorIndex(0);		// following text must be white on black
 		   } else u8g.setColorIndex(1); // unmarked text is black on white
-		
+
 		u8g.setPrintPos(0 * DOG_CHAR_WIDTH, (row + 1) * DOG_CHAR_HEIGHT);
 		u8g.setPrintPos(1 + ((row+1)%3)*43, 8 + columnSpace);
 		//if (pre_char != '>') u8g.print(pre_char); else u8g.print('~');	// Row selector is obsolete
-	
+
 	}
-		
-		
-		
+
+
+
     while( (c = pgm_read_byte(pstr)) != '\0' )
     {
 			u8g.print(c);
-		
+
         pstr++;
         n--;
     }
-	
+
 		/*u8g.print(':');
 
     while(n--){
@@ -1096,17 +1097,17 @@ static void lcd_implementation_drawmenu_setting_edit_generic_P(uint8_t row, cons
 
 		u8g.setPrintPos(0 * DOG_CHAR_WIDTH, (row + 1) * DOG_CHAR_HEIGHT);
 		u8g.print(pre_char);
-	
+
     while( (c = pgm_read_byte(pstr)) != '\0' )
     {
 			u8g.print(c);
-		
+
         pstr++;
         n--;
     }
 
 		u8g.print(':');
-	
+
     while(n--){
 					u8g.print(' ');
 			  }
@@ -1177,7 +1178,7 @@ static void lcd_implementation_drawmenu_sdfile_selected(uint8_t row, const char*
 		u8g.setColorIndex(0);		// following text must be white on black
 		u8g.setPrintPos(0 * DOG_CHAR_WIDTH, (row + 1) * DOG_CHAR_HEIGHT);
 		u8g.print(' ');	// Indent by 1 char
-	   
+
     while((c = *filename) != '\0')
     {
 		u8g.print(c);
@@ -1203,11 +1204,11 @@ static void lcd_implementation_drawmenu_sdfile(uint8_t row, const char* pstr, ch
 
 		u8g.setPrintPos(0 * DOG_CHAR_WIDTH, (row + 1) * DOG_CHAR_HEIGHT);
 		u8g.print(' ');
-		
+
 while((c = *filename) != '\0')
     {
 			u8g.print(c);
-		
+
         filename++;
         n--;
     }
@@ -1221,7 +1222,7 @@ static void lcd_implementation_drawmenu_sddirectory_selected(uint8_t row, const 
 {
     char c;
     uint8_t n = LCD_WIDTH - 2;
-		
+
     if (longFilename[0] != '\0')
     {
         filename = longFilename;
@@ -1232,12 +1233,12 @@ static void lcd_implementation_drawmenu_sddirectory_selected(uint8_t row, const 
 		u8g.setColorIndex(0);		// following text must be white on black
 		u8g.setPrintPos(0 * DOG_CHAR_WIDTH, (row + 1) * DOG_CHAR_HEIGHT);
 		u8g.print(' ');	// Indent by 1 char
-		u8g.print(LCD_STR_FOLDER[0]);		
-	   
+		u8g.print(LCD_STR_FOLDER[0]);
+
     while((c = *filename) != '\0')
     {
 			u8g.print(c);
-		
+
         filename++;
         n--;
     }
@@ -1265,7 +1266,7 @@ static void lcd_implementation_drawmenu_sddirectory(uint8_t row, const char* pst
     while((c = *filename) != '\0')
     {
 			u8g.print(c);
-		
+
         filename++;
         n--;
     }
@@ -1300,5 +1301,3 @@ static void lcd_implementation_quick_feedback()
 #endif
 }
 #endif//ULTRA_LCD_IMPLEMENTATION_DOGM_H
-
-
